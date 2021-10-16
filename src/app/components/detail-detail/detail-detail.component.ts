@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CrudService } from './../../service/crud.service';
 import { FormGroup, FormBuilder } from "@angular/forms";
+import { Jeux } from 'src/app/service/jeux';
 
 @Component({
   selector: 'app-detail-detail',
@@ -10,40 +11,59 @@ import { FormGroup, FormBuilder } from "@angular/forms";
 })
 export class DetailDetailComponent implements OnInit {
 
-  getId: any;
-  updateForm: FormGroup;
-  
+  currentJeux: Jeux = {
+    titre: '',
+    description: '',
+    image: '', 
+    categorie: ''
+  };
+  message = '';
+
   constructor(
-    public formBuilder: FormBuilder,
-    private router: Router,
-    private ngZone: NgZone,
-    private activatedRoute: ActivatedRoute,
-    private crudService: CrudService
-  ) {
-    this.getId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.crudService.GetJeu(this.getId).subscribe(res => {
-      this.updateForm.setValue({
-        titre: res['titre'],
-        description: res['description'],
-        image: res['image'],
-        categorie: res['categorie'],
-      });
-    });
-    this.updateForm = this.formBuilder.group({
-      titre: [''],
-      description: [''],
-      image: [''],
-      categorie: [''],
-    })
+    private CrudService: CrudService,
+    private route: ActivatedRoute,
+    private router: Router) { }
+
+  ngOnInit(): void {
+    this.message = '';
+    this.getTutorial(this.route.snapshot.params.id);
   }
-  ngOnInit() { }
-  onUpdate(): any {
-    this.crudService.updateJeux(this.getId, this.updateForm.value)
-    .subscribe(() => {
-        console.log('Game updated successfully!')
-        this.ngZone.run(() => this.router.navigateByUrl('/jeux'))
-      }, (err) => {
-        console.log(err);
-    });
+
+  getTutorial(id: string): void {
+    this.CrudService.GetJeu(id)
+      .subscribe(
+        data => {
+          this.currentJeux = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  updateJeux(): void {
+    this.message = '';
+
+    this.CrudService.updateJeux(this.currentJeux._id, this.currentJeux)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.message = response.message ? response.message : 'This Game was updated successfully!';
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  deleteJeux(): void {
+    this.CrudService.deleteJeux(this.currentJeux._id)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.router.navigate(['/game']);
+        },
+        error => {
+          console.log(error);
+        });
   }
 }

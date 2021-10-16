@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Jeux } from 'src/app/service/jeux';
 import { CrudService } from './../../service/crud.service';
 
 @Component({
@@ -8,20 +9,64 @@ import { CrudService } from './../../service/crud.service';
 })
 export class JeuxComponent implements OnInit {
 
-  Jeux:any = [];
-  constructor(private crudService: CrudService) { }
+  jeux?: Jeux[];
+  currentJeux: Jeux = {};
+  currentIndex = -1;
+  title = '';
+
+  constructor(private CrudService: CrudService) { }
+
   ngOnInit(): void {
-    this.crudService.GetJeux().subscribe(res => {
-      console.log(res)
-      this.Jeux =res;
-    });    
+    this.retrieveTutorials();
   }
-  delete(id:any, i:any) {
-    console.log(id);
-    if(window.confirm('Do you want to go ahead?')) {
-      this.crudService.deleteJeux(id).subscribe((res) => {
-        this.Jeux.splice(i, 1);
-      })
-    }
+
+  retrieveTutorials(): void {
+    this.CrudService.GetJeux()
+      .subscribe(
+        data => {
+          this.jeux = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  refreshList(): void {
+    this.retrieveTutorials();
+    this.currentJeux = {};
+    this.currentIndex = -1;
+  }
+
+  setActiveTutorial(tutorial: Jeux, index: number): void {
+    this.currentJeux = tutorial;
+    this.currentIndex = index;
+  }
+
+  removeAllTutorials(): void {
+    this.CrudService.deleteAll()
+      .subscribe(
+        response => {
+          console.log(response);
+          this.refreshList();
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  searchTitle(): void {
+    this.currentJeux = {};
+    this.currentIndex = -1;
+
+    this.CrudService.findByTitle(this.title)
+      .subscribe(
+        data => {
+          this.jeux = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
   }
 }

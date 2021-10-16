@@ -4,10 +4,10 @@ import { JeuxComponent } from './components/jeux/jeux.component';
 import { AddComponent } from './components/add/add.component';
 import { DetailDetailComponent } from './components/detail-detail/detail-detail.component';
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'add-user' },
+  { path: '', pathMatch: 'full', redirectTo: 'jeux' },
   { path: 'jeux', component: JeuxComponent },
   { path: 'add', component: AddComponent },
-  { path: 'edit/:id', component: DetailDetailComponent }
+  { path: 'put/:id', component: DetailDetailComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
