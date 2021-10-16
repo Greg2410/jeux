@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h2 class="h2">Liste des jeux</h2>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Description</th>
+            <th scope="col">Image</th>
+            <th scope="col">Catégorie</th>
+            <th class="text-center" scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let jeux of Jeux; let i = index">
+            <th scope="row">{{jeux._id}}</th>
+            <td>{{jeux.titre}}</td>
+            <td>{{jeux.description}}</td>
+            <td>{{jeux.image}}</td>
+            <td>{{jeux.categorie}}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-primary" routerLink="/edit/{{jeux._id}}">Edit</button>
+              <button class="btn btn-sm btn-danger" (click)="delete(jeux._id, i)">Delete</button>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
