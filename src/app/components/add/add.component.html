@@ -21,12 +21,12 @@
         <input type="text" class="form-control" id="titre" required [(ngModel)]="jeux.Categories" name="categories" />
       </div>
 
-      <button (click)="addJeux()" class="btn btn-success">Create</button>
+      <button (click)="addJeux()" class="btn btn-success">Créer</button>
     </div>
 
     <div *ngIf="submitted">
-      <h3>New game added!</h3>
-      <button class="btn btn-success" (click)="newGame()"> + Add More</button>
+      <h3>Nouveau jeu ajouté !</h3>
+      <button class="btn btn-success" (click)="newGame()">Nouveau</button>
     </div>
   </div>
 </div>

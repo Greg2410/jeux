@@ -2,3 +2,7 @@ img{
     max-width: 500px;
     max-height: 250px;
 }
+
+button {
+    margin-top: 20px;
+}
