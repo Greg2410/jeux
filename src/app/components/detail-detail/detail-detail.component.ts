@@ -11,13 +11,8 @@ import { Jeux } from 'src/app/service/jeux';
 })
 export class DetailDetailComponent implements OnInit {
 
-  currentJeux: Jeux = {
-    titre: '',
-    description: '',
-    image: '', 
-    categorie: ''
-  };
-  message = '';
+  id: any = this.route.snapshot.paramMap.get('id');
+  jeux: any = {};
 
   constructor(
     private CrudService: CrudService,
@@ -25,45 +20,27 @@ export class DetailDetailComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.message = '';
-    this.getTutorial(this.route.snapshot.params.id);
+    this.CrudService.GetJeu(this.id).subscribe((data: {}) => {
+      this.jeux = data;
+    });
   }
 
-  getTutorial(id: string): void {
-    this.CrudService.GetJeu(id)
-      .subscribe(
-        data => {
-          this.currentJeux = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
+  updateJeu(): void {
+    this.CrudService.updateJeux(this.id, this.jeux).subscribe((data: {}) => {
+      this.router.navigate(['/detail/' + this.id]);
+    })
   }
 
-  updateJeux(): void {
-    this.message = '';
-
-    this.CrudService.updateJeux(this.currentJeux._id, this.currentJeux)
+  deleteJeu(): void {
+    this.CrudService.deleteJeux(this.id)
       .subscribe(
         response => {
           console.log(response);
-          this.message = response.message ? response.message : 'This Game was updated successfully!';
+          this.router.navigate(['/jeux']);
         },
         error => {
           console.log(error);
         });
   }
 
-  deleteJeux(): void {
-    this.CrudService.deleteJeux(this.currentJeux._id)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.router.navigate(['/game']);
-        },
-        error => {
-          console.log(error);
-        });
-  }
 }

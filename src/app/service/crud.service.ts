@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Jeux } from './jeux';
-import { catchError, map } from 'rxjs/operators';
+import { catchError} from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 const baseUrl = 'http://127.0.0.1:3333/game';
@@ -21,22 +21,33 @@ export class CrudService {
   }
 
   AddJeux(data: any): Observable<any> {
-    return this.http.post(baseUrl, data);
+    return this.http.post(`${baseUrl}/create/`, data);
   }
 
+  // Edit/ Update 
   updateJeux(id: any, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
+    return this.http.put(`${baseUrl}/put/?id=${id}`, data).pipe(
+      catchError(this.handleError)
+    );
   }
 
+  // Delete
   deleteJeux(id: any): Observable<any> {
-    return this.http.delete(`${baseUrl}/${id}`);
+    return this.http.delete(`${baseUrl}/delete/?id=${id}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  deleteAll(): Observable<any> {
-    return this.http.delete(baseUrl);
-  }
-
-  findByTitle(title: any): Observable<Jeux[]> {
-    return this.http.get<Jeux[]>(`${baseUrl}?title=${title}`);
-  }
+  // Handle API errors
+  handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    return throwError(
+      'Something bad happened; please try again later.');
+  };
 }

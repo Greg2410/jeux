@@ -1,7 +1,7 @@
 export class Jeux {
-    _id?: any;
-    titre?: String;
-    description?: String;
-    image?: String;
-    categorie?: String;
+    id?: any;
+    Titre?: String;
+    Description?: String;
+    Image?: String;
+    Categories?: String;
 }

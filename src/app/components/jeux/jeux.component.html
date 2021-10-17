@@ -1,42 +1,32 @@
 <div class="list row">
-  <div class="col-md-6">
-    <h4>Game List</h4>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let jeux of jeux; let i = index"
-        [class.active]="i == currentIndex"
-      >
-        {{ jeux.titre }}
-      </li>
-    </ul>
+  <div class="col-md-12">
+    <h4>Liste des Jeux</h4>
 
-    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
-      Remove All
-    </button>
-  </div>
-  <div class="col-md-6">
-    <div *ngIf="currentJeux._id">
-      <h4>Tutorial</h4>
-      <div>
-        <label><strong>Titre:</strong></label> {{ currentJeux.titre }}
-      </div>
-      <div>
-        <label><strong>Description:</strong></label>
-        {{ currentJeux.description }}
-      </div>
-      <div>
-        <label><strong>Image:</strong></label>
-        {{ currentJeux.image }}
-      </div>
-      <div>
-        <label><strong>Catégorie:</strong></label>
-        {{ currentJeux.categorie }}
-      </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Titre</th>
+          <th scope="col">Description</th>
+          <th scope="col">Image</th>
+          <th scope="col">Catégories</th>
+          <th scope="col" style="min-width: 150px;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let jeux of jeux;">
+          <th scope="row">{{jeux.id}}</th>
+          <td><b>{{jeux.Titre}}</b></td>
+          <td>{{jeux.Description}}</td>
+          <td><img src={{jeux.Image}} alt="test"/></td>
+          <td>{{jeux.Categories}}</td>
+          <td>
+            <button type="button" class="btn btn-danger" routerLink="/put/{{jeux.id}}">Mettre à jour</button>
+            <button type="button" class="btn btn-warning" (click)="deleteJeux(jeux.id)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-      <a class="badge badge-warning" routerLink="/put/{{ currentJeux._id }}">
-        Edit
-      </a>
-    </div>
   </div>
 </div>

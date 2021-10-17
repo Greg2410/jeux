@@ -9,13 +9,15 @@ import { DetailDetailComponent } from './components/detail-detail/detail-detail.
 import { JeuxComponent } from './components/jeux/jeux.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { IndexComponent } from './components/index/index.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddComponent,
     DetailDetailComponent,
-    JeuxComponent
+    JeuxComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrudService } from './../../service/crud.service';
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { Jeux } from 'src/app/service/jeux';
 
 @Component({
   selector: 'app-add',
@@ -9,29 +9,52 @@ import { FormGroup, FormBuilder } from "@angular/forms";
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
-  gameForm: FormGroup;
-  
-  constructor(
-    public formBuilder: FormBuilder,
-    private router: Router,
-    private ngZone: NgZone,
-    private crudService: CrudService
-  ) { 
-    this.gameForm = this.formBuilder.group({
-      titre: [''],
-      description: [''],
-      image:[''],
-      categorie:['']
-    })
+
+  jeux: Jeux = {
+    Titre: '',
+    Description: '',
+    Image: '',
+    Categories: ''
+  };
+  submitted = false;
+
+  constructor(private CrudService: CrudService) { }
+
+  ngOnInit(): void {
   }
-  ngOnInit() { }
-  onSubmit(): any {
-    this.crudService.AddJeux(this.gameForm.value)
-    .subscribe(() => {
-        console.log('Game added successfully!')
-        this.ngZone.run(() => this.router.navigateByUrl('/game'))
-      }, (err) => {
-        console.log(err);
-    });
+
+  addJeux(): void {
+    const data = {
+      titre: this.jeux.Titre,
+      description: this.jeux.Description,
+      image: this.jeux.Image,
+      categorie: this.jeux.Categories
+    };
+    if (!data.titre) {
+      alert('Please add title!');
+      return;
+    }
+
+    this.CrudService.AddJeux(data)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.submitted = true;
+        },
+        error => {
+          console.log(error);
+        });
   }
+
+  // Reset on adding new
+  newGame(): void {
+    this.submitted = false;
+    this.jeux = {
+      Titre: '',
+      Description: '',
+      Image: '',
+      Categories: ''
+    };
+  }
+
 }

@@ -1,5 +1,5 @@
-<div>
-  <div *ngIf="currentJeux._id" class="edit-form">
+<!-- <div>
+  <div *ngIf="currentJeux.id" class="edit-form">
     <h4>Jeux</h4>
     <form>
       <div class="form-group">
@@ -8,7 +8,7 @@
           type="text"
           class="form-control"
           id="titre"
-          [(ngModel)]="currentJeux.titre"
+          [(ngModel)]="currentJeux.Titre"
           name="titre"
         />
       </div>
@@ -18,7 +18,7 @@
           type="text"
           class="form-control"
           id="description"
-          [(ngModel)]="currentJeux.description"
+          [(ngModel)]="currentJeux.Description"
           name="description"
         />
       </div>
@@ -28,7 +28,7 @@
           type="text"
           class="form-control"
           id="image"
-          [(ngModel)]="currentJeux.image"
+          [(ngModel)]="currentJeux.Image"
           name="image"
         />
       </div>
@@ -38,7 +38,7 @@
           type="text"
           class="form-control"
           id="categorie"
-          [(ngModel)]="currentJeux.categorie"
+          [(ngModel)]="currentJeux.Categories"
           name="categorie"
         />
       </div>
@@ -58,8 +58,62 @@
     <p>{{ message }}</p>
   </div>
 
-  <div *ngIf="!currentJeux._id">
+  <div *ngIf="!currentJeux.id">
     <br />
     <p>Cannot access this Tutorial...</p>
   </div>
+</div> -->
+
+<div style="width: 500px; margin: auto;">
+  <div *ngIf="jeux" class="edit-form">
+    <h4>Jeux</h4>
+    <form>
+      <div class="form-group">
+        <label for="titre">Titre</label>
+        <input
+          type="text"
+          class="form-control"
+          id="titre"
+          [(ngModel)]="jeux.titre"
+          name="titre"
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          [(ngModel)]="jeux.description"
+          name="description"
+        />
+      </div>
+      <div class="form-group">
+        <label for="image">Image</label>
+        <input
+          type="text"
+          class="form-control"
+          id="image"
+          [(ngModel)]="jeux.image"
+          name="image"
+        />
+      </div>
+      <div class="form-group">
+        <label for="categories">Categories</label>
+        <input
+          type="text"
+          class="form-control"
+          id="categories"
+          [(ngModel)]="jeux.categories"
+          name="categories"
+        />
+      </div>
+
+    </form>
+
+    <button type="button" class="btn btn-danger" (click)="updateJeu()" >Update</button>
+    <button type="button" class="btn btn-warning" (click)="deleteJeu()">Delete</button>
+
+  </div>
+
 </div>

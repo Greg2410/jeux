@@ -17,10 +17,10 @@ export class JeuxComponent implements OnInit {
   constructor(private CrudService: CrudService) { }
 
   ngOnInit(): void {
-    this.retrieveTutorials();
+    this.retrieveGames();
   }
 
-  retrieveTutorials(): void {
+  retrieveGames(): void {
     this.CrudService.GetJeux()
       .subscribe(
         data => {
@@ -32,41 +32,16 @@ export class JeuxComponent implements OnInit {
         });
   }
 
-  refreshList(): void {
-    this.retrieveTutorials();
-    this.currentJeux = {};
-    this.currentIndex = -1;
+  // Delete action
+  deleteJeux(id:number){
+    this.CrudService.deleteJeux(id)
+    .subscribe(
+      response => {
+        this.retrieveGames();
+      },
+      error => {
+        console.log(error);
+      });
   }
 
-  setActiveTutorial(tutorial: Jeux, index: number): void {
-    this.currentJeux = tutorial;
-    this.currentIndex = index;
-  }
-
-  removeAllTutorials(): void {
-    this.CrudService.deleteAll()
-      .subscribe(
-        response => {
-          console.log(response);
-          this.refreshList();
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
-  searchTitle(): void {
-    this.currentJeux = {};
-    this.currentIndex = -1;
-
-    this.CrudService.findByTitle(this.title)
-      .subscribe(
-        data => {
-          this.jeux = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
-  }
 }
